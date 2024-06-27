@@ -1,0 +1,34 @@
+---
+title: "About me"
+---
+![<span style="font-size:24px;">**Sri Lakshmi**</span>](sri.jpg){fig-align="left" width="300"}
+
+<span style="font-size:24px;">**Introduction**</span>
+
+Hi this is Sri Lakshmi Sudha Ganni, I am currently pursuing my Master's in Data Analytics from UTSA. My background is in chemical engineering with industry experience focused on chemical testing of water and waste water. I am passionate about data analysis and I am looking forward to work in the field of data analytics. As part of my Data Analytics Journey so far I have worked with R, python, SQL and SAS. I have explored machine learning techniques such as support vector machines, natural learning processing, clustering and regression. I have also worked on data visualization using ggplot2 and matplotlib. I have experience in data cleaning, data wrangling, data visualization, statistical analysis and machine learning.
+
+<span style="font-size:24px;">**Data Analytics Experience**</span>
+
+I have previously worked on projects focused on analysis of resources available for cancer patients. I am also working on a project which is focused on predicting the price of housing market in San Antonio. I am looking forward to work on more projects and gain more experience in the field of data analytics. I am also looking forward to work on projects which are focused on data visualization and machine learning. I am also interested in learning new technologies and tools in the field of data analytics. 
+
+<span style="font-size:24px;">**Research Interest**</span>
+
+ My Primary area of interest is to work at the intersection of data analytics and chemical engineering. Specially application of machine learning techniques to analyze and discover underlying trends in chemical plant data and material testing.
+
+<span style="font-size:24px;">**Interesting thing About Me**</span>
+
+A quirky and interesting thing about me is My passion for photography, especially focusing on capturing nature and landscapes. It offered a different perspective on observing and interpreting the world around me.
+
+<span style="font-size:24px;">**Hobbies**</span>
+
+I love playing Racquetball, trekking and passionate about Photography.
+
+<span style="font-size:24px;">**Machine Learning & Art: Neural Networks for Artistic Use(<a href="https://www.youtube.com/watch?v=UxQDG6WQT5s&t=77s">Link</a>)**</span>
+
+This video tutorial provides an in-depth look at how neural networks can be used to apply artistic styles to images, a process known as style transfer.
+It's a compelling example of how machine learning techniques are being used creatively to blend different artistic styles onto a canvas or photograph, essentially allowing the algorithm to "paint" one picture in the style of another artist.
+
+
+
+
+

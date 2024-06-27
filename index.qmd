@@ -1,0 +1,49 @@
+---
+title: ""
+output: 
+  html_document:
+    css: styles.css
+---
+
+
+
+
+::: {.header2 align="left"}
+<h1>
+
+Welcome to My Website
+
+Sri Lakshmi - DA Portfolio
+
+</h1>
+:::
+
+# Introduction
+
+Hi, I am **Sri Lakshmi Sudha Ganni**, currently pursuing my Master’s in Data Analytics from UTSA. My background is in chemical engineering with industry experience focused on chemical testing of water and wastewater. I am passionate about data analysis and looking forward to work in the field of data analytics. Throughout my journey, I have gained proficiency in **R, Python, SQL**, and **SAS**. I have explored machine learning techniques such as support vector machines, natural language processing, clustering, and regression, and have worked on data visualization using **ggplot2** and **matplotlib**.
+
+# Data Analytics Experience
+
+I have worked on projects analyzing resources available for cancer patients and I'm currently focused on predicting the housing market prices in San Antonio. I am eager to work on more projects to enhance my experience in data analytics, especially those focusing on data visualization and machine learning.
+
+# Projects
+
+1)  Cancer Patient health resources Analysis 
+
+![](cancer_DA.jpg){fig-align="left" width="300"}
+
+2)  Housing Market Trends Modeling
+
+![](housing.jpg){}
+
+3)  Natural Langugage Processing
+
+![](nlp.jpg){}
+
+# Research Interest
+
+My primary area of interest lies at the intersection of data analytics and chemical engineering. Specifically, I am keen on applying machine learning techniques to analyze and discover underlying trends in chemical plant data and material testing.
+
+# Hobbies
+
+In my free time, I love playing Racquetball, trekking, and I am passionate about photography.

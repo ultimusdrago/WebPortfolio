@@ -1,0 +1,29 @@
+/* css styles */
+
+.header2 {
+  background-image: url('sri2.jpg');
+  background-repeat: no-repeat;
+  background-size: cover;
+  height:350px; /* Adjust the height as needed */
+  display: flex;
+  justify-content: align-start;
+  align-items: center;
+  color: #EF468B; /* Text color */
+  text-align: center;
+}
+
+
+.header h1 {
+  color: #EF468B;
+  text-shadow: 3px 3px 4px #000000; /* Shadow for better visibility */
+}
+
+.header-image {
+  filter: brightness(50%);
+}
+
+.text-column {
+    max-width: 2100px; /* Adjust this value as needed */
+    margin: auto; /* Centers the column if the page width exceeds max-width */
+    padding: 10px; /* Optional: Adds some space inside the column */
+}

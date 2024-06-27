@@ -1,0 +1,356 @@
+---
+title: "R Coding Exercise"
+editor: 
+  markdown: 
+    wrap: 72
+---
+<div class="r-coding-exercise-custom-special-style">
+
+# Analyzing Life Expectancy in Africa
+
+1.Loading required libraries:
+
+We will be using the `dslabs` package to access the `gapminder` dataset and the `dplyr` package for data manipulation tasks.
+
+```{r}
+library("dslabs") #Accessing the gapminder dataset
+library(dplyr)    #Data manipulation
+
+```
+:::
+
+2.  Accessing the documentation for the Gapminder dataset:
+
+This helps understand the structure and variables included in the dataset
+
+```{r}
+help(gapminder)
+```
+
+3.Exploring the structure of the gapminder dataset:
+
+`str()` provides a concise summary of the dataset structure showing types of variables and sample data
+
+```{r}
+str(gapminder)
+```
+
+4.Summarizing the gapminder dataset:
+
+`summary()` provides a statistical summary for each variable, useful for initial data assessment
+
+```{r}
+summary(gapminder)
+```
+
+5.Checking the data type of the gapminder dataset:
+
+Ensuring that the dataset is a dataframe which is suitable for data manipulation tasks
+
+```{r}
+class(gapminder)
+```
+
+# PROCESSING THE DATA
+
+1.Filtering data to include only African countries:
+
+Creating a new data object `africadata` to specifically analyze this continent
+
+```{r}
+africadata <- gapminder[gapminder$continent == "Africa", ]
+```
+
+2.Checking the structure of the filtered data
+
+```{r}
+str(africadata)
+```
+
+3.Summarizing the African data subset:
+
+```{r}
+summary(africadata)
+```
+
+# Creating Specific Data Views:
+
+1.Creating a data object with selected variables:
+
+We'll create two new objects: one containing only infant_mortality and life_expectancy, and the other containing population and life_expectancy.
+
+```{r}
+health_data <- africadata[, c("infant_mortality", "life_expectancy")]
+```
+
+2.Creating another view focusing on population size and life expectancy
+
+```{r}
+population_data <- africadata[, c("population", "life_expectancy")]
+```
+
+3.Exploring the structure and summary of these new datasets
+
+```{r}
+str(health_data)
+summary(health_data)
+str(population_data)
+summary(population_data)
+```
+
+# Plotting and Analysis:
+
+Documenting plotting and further analysis helps in understanding the purpose and interpretation of visualizations and statistical results.
+
+1.Plotting life expectancy vs infant mortality:
+
+```{r}
+plot(africadata$infant_mortality, africadata$life_expectancy, main="Life Expectancy vs Infant Mortality", xlab="Infant Mortality", ylab="Life Expectancy")
+```
+
+We can clearly see a negative correlation indicating higher infant mortality associated with lower life expectancy
+
+2.Plotting life expectancy vs population size:
+
+Using log scale for population to better visualize data across wide range of values
+
+```{r}
+plot(africadata$population, africadata$life_expectancy, main="Life Expectancy vs Population Size", xlab="Population ", ylab="Life Expectancy",log="x")
+```
+
+Generally, there is a positive correlation between these two variables. Similar to the previous plot, multiple 'lines' composed of closely clustered data points can be observed. These lines represent the data from various countries over successive years, showing either an increase or decrease.
+
+# More Data Processing:
+
+We need to determine the years for which the Infant Mortality variable has complete data.
+
+1.  Identify years with missing data for infant mortality
+
+```{r}
+missing_data_by_year <- africadata %>%
+  group_by(year) %>%
+  summarize(missing_infant_mortality = sum(is.na(infant_mortality)))
+```
+
+2.  Calculate total missing values for infant mortality:
+
+```{r}
+total_missing_infant_mortality <- sum(is.na(africadata$infant_mortality))
+print(paste("Total missing values for infant mortality:", total_missing_infant_mortality))
+```
+
+3.  Print years with missing data
+
+```{r}
+print("Years with missing data for infant mortality:")
+print(missing_data_by_year)
+```
+
+Around 1982, the count of missing values (NAs) for the Infant Mortality variable fell to zero and remained so until 2016, when the missing values increased again. Therefore, we should select a year within that range.
+
+4.  Filter data for the year 2000:
+
+```{r}
+data_2000 <- africadata %>%
+  filter(year == 2000)
+```
+
+5.  Explore the structure and summary of the dataset for the year 2000:
+
+```{r}
+print("Structure of data for the year 2000:")
+str(data_2000)
+
+print("Summary of data for the year 2000:")
+summary(data_2000)
+```
+
+# More Plotting:
+
+Plot 1: Life Expectancy vs. Infant Mortality:
+
+```{r}
+
+plot(data_2000$infant_mortality, data_2000$life_expectancy,
+     main = "Life Expectancy vs. Infant Mortality (2000)",
+     xlab = "Infant Mortality",
+     ylab = "Life Expectancy",
+     pch = 19,col='blue')  # pch = 19 makes the points solid circles
+
+```
+
+Plot 2: Life Expectancy vs. Population Size
+
+```{r}
+plot(data_2000$population, data_2000$life_expectancy,
+     main = "Life Expectancy vs. Population Size (2000)",
+     xlab = "Population Size",
+     ylab = "Life Expectancy",
+     log = "x",  # sets the x-axis to logarithmic scale
+     pch = 19, col='red')  # pch = 19 makes the points solid circles
+```
+
+# Summary of model fits:
+
+Using linear models to understand the influence of infant mortality and population size on life expectancy
+
+1.Linear Regression for Life Expectancy vs. Infant Mortality:
+
+```{r}
+fit1 <- lm(life_expectancy ~ infant_mortality, data = data_2000)
+summary(fit1)  # Outputs the summary of the regression model
+```
+
+## Regression Analysis: Life Expectancy vs. Infant Mortality (2000)
+
+### Objective
+
+The goal was to analyze the impact of infant mortality on life expectancy among African countries in the year 2000.
+
+### Methodology
+
+A linear regression model was fitted with life expectancy as the dependent variable and infant mortality as the predictor.
+
+### Results
+
+-   **Model Coefficients**:
+    -   **Intercept**: The model estimates a life expectancy of 71.29 years when the infant mortality rate is zero.
+    -   **Infant Mortality Coefficient**: The negative coefficient of -0.18916 indicates that as infant mortality increases by one unit, life expectancy decreases by approximately 0.189 years.
+-   **Statistical Significance**:
+    -   The p-value for the infant mortality coefficient is extremely low (\< 2.83e-08), suggesting a statistically significant negative impact of infant mortality on life expectancy.
+-   **Model Fit**:
+    -   The R-squared value of 0.4701 implies that about 47.01% of the variability in life expectancy across the dataset can be explained by differences in infant mortality rates.
+
+### Conclusion
+
+The analysis confirms a significant negative correlation between infant mortality and life expectancy for the year 2000 in African countries. This suggests that policies aimed at reducing infant mortality could be effective in increasing life expectancy.
+
+# Linear Regression for Life Expectancy vs. Population Size
+
+Using logarithmic transformation for population size:
+
+```{r}
+fit2 <- lm(life_expectancy ~ (population), data = data_2000)
+summary(fit2)  # Outputs the summary of the regression model
+```
+
+## Regression Analysis: Life Expectancy vs. Population Size (2000)
+
+### Objective
+
+The aim was to explore whether the size of a population in African countries in the year 2000 impacts life expectancy.
+
+### Methodology
+
+A linear regression model was employed with life expectancy as the outcome and the population size as the predictor.
+
+### Results
+
+-   **Model Coefficients**:
+    -   **Intercept**: The model predicts a base life expectancy of 5593 years, adjusting for population size.
+    -   **Log(Population) Coefficient**: The coefficient of 2.756e-08 suggests a negligible change in life expectancy with increasing population size.
+-   **Statistical Significance**:
+    -   The p-value for the log of population size is 0.6159, indicating that this model does not find a statistically significant impact of population size on life expectancy.
+-   **Model Fit**:
+    -   The R-squared value is only 0.005176, highlighting that population size explains a very small fraction of the variability in life expectancy.
+    -   The negative adjusted R-squared value suggests that the model does not adequately predict life expectancy and might perform worse than a model with no predictors at all.
+
+### Conclusion
+
+The analysis indicates that there is no significant correlation between population size and life expectancy among African countries for the year 2000. This suggests that other factors not included in this model might be more influential in determining life expectancy.
+
+\pagebreak
+
+## [This section is contributed by JOAQUIN RAMIREZ]{style="color:red;"}
+
+```{r}
+# Loading ggplot2 package for data visualization
+library(ggplot2)
+
+
+# In order to determine what datasets are available in the dslabs package (use code below)
+# data(package = "dslabs")
+```
+
+After reviewing the datasets available, I selected the "temp_carbon" dataset for further exploration. This dataset contains global temperature anomaly data and carbon emissions from the years 1751 through 2018. The goal of this analysis is to examine the relationship between global temperature anomalies and carbon emissions over this extensive time period.
+
+```{r}
+# Loads the temp_carbon dataset from the dslabs package
+data("temp_carbon")
+
+
+# This provides an overview of the data types and number of observations
+str(temp_carbon)
+
+# View the summary statistics of the temp_carbon dataset.
+summary(temp_carbon)
+```
+
+The "temp_carbon" dataset contain 268 observations of 5 variables: year, temp_anomaly, land_anomaly, ocean_anomaly, and carbon_emissions. The dataset also contains some missing values (NAs) which will be removed before further analysis.
+
+```{r}
+# This gives a quick glance at the dataset.
+head(temp_carbon)
+```
+
+```{r}
+# Checking for missing values in the dataset
+sum(is.na(temp_carbon))
+
+# Removing NA's values
+temp_carbon <- na.omit(temp_carbon)
+```
+
+```{r}
+# Plotting the Global Carbon Emissions 
+ggplot(temp_carbon, aes(x = year, y = carbon_emissions)) +
+  geom_line() +  # Using a line plot to show the trend of carbon emissions
+  labs(title = "Global temperature anomaly and carbon emissions, 1751-2018", x = "Year", y = "Carbon Emissions")  
+
+# Fiting a linear regression model with carbon emissions as the outcome and year as the predictor
+fit_carbon <- lm(carbon_emissions ~ year, data = temp_carbon)
+
+
+summary(fit_carbon) # The summary of the linear regression model
+```
+
+```{r}
+# Plotting the fitted linear regression line for carbon emissions
+ggplot(temp_carbon, aes(x = year, y = carbon_emissions)) +
+  geom_line() +  # Using a line plot to show the trend of carbon emissions
+  geom_abline(slope = fit_carbon$coefficients[2], intercept = fit_carbon$coefficients[1], col = "red") +  # Adding a regression line
+  labs(title = "Linear Regression: Year vs Carbon Emissions", x = "Year", y = "Carbon Emissions ")  
+```
+
+As we can observe in the plotted graph, there seems to be an increase in Carbon emissions. This is confirmed by the linear regression model. The high R-squared value only further confirms that the model explains a large portion of the variance in carbon emissions. The high levels of Carbon emissions seem to really begin to take off during WWII.
+
+Note: The red regression line represents the relationship between year and carbon emissions modeled by the linear regression analysis above.
+
+```{r}
+# Plotting the Global Temperature over Time
+ggplot(temp_carbon, aes(x = year, y = temp_anomaly)) +
+  geom_line() +  # Ussing a line plot to show the trend of temperature over time
+  labs(title = "Global Temperature Over Time", x = "Year", y = "Temperature")
+
+
+# Fit a linear regression model to help understand the trend of temperature anomalies over time
+fit_temp <- lm(temp_anomaly ~ year, data = temp_carbon)
+
+
+# Viewing the summary of the linear regression model
+summary(fit_temp)
+```
+
+```{r}
+# This plot represents the relationship modeled by the linear regression
+ggplot(temp_carbon, aes(x = year, y = temp_anomaly)) +
+  geom_line() +  # adding the line plot to show the trend of temperature anomalies over time
+  geom_abline(slope = fit_temp$coefficients[2], intercept = fit_temp$coefficients[1], col = "red") +  # This adds the regression line on the graph
+  labs(title = "Linear Regression: Year vs Temperature Anomaly", x = "Year", y = "Temperature")  
+```
+
+As observed in the plotted graph, temperatures have noticeably increased over time. This upward trend is cause by the surge in carbon emissions. The high R-squared value of 0.7528 suggests a strong relationship between year and temperature anomaly. Additionally, the low p-value ( 2.2e-16) confirms the statistical significance of this relationship, suggesting that the year is a significant predictor of temperature.
+
+Note: The red line in the plot provides a visual representation of the linear regression model's prediction of how temperature anomaly changes with each passing year
+
+In conclusion, after further analysis and using visualization with linear regression models, I can confirm there exist a significant relationship between increasing carbon emissions and rising temperatures. The linear regression model indicates that temperatures changes on average of 0.0068. Similarly, on average, carbon emissions increases by 6.518e+01 per year.
